@@ -14,15 +14,15 @@ class BladeRendererFactory
     public function __invoke(ContainerInterface $container)
     {
         $config = $container->has('config') ? $container->get('config') : [];
-        $config = isset($config['templates']) ? $config['templates'] : [];
+        $configTemplates = isset($config['templates']) ? $config['templates'] : [];
 
         // Create the engine instance:
         $viewFactory = $this->createView($container);
 
-        // Inject engine
+        // Inject view
         $blade = new BladeRenderer($viewFactory);
         // Add template paths
-        $allPaths = isset($config['paths']) && is_array($config['paths']) ? $config['paths'] : [];
+        $allPaths = isset($configTemplates['paths']) && is_array($configTemplates['paths']) ? $configTemplates['paths'] : [];
         foreach ($allPaths as $namespace => $paths) {
             $namespace = is_numeric($namespace) ? null : $namespace;
             foreach ((array) $paths as $path) {
