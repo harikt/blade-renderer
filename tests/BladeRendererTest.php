@@ -5,6 +5,9 @@ use Acclimate\Container\ContainerAcclimator;
 use Illuminate\Container\Container;
 use Illuminate\View\Factory as ViewFactory;
 use PHPUnit\Framework\TestCase;
+use Zend\Expressive\Router\Route;
+use Zend\Expressive\Router\RouterInterface;
+use Zend\Expressive\Router\FastRouteRouterFactory;
 
 class BladeRendererTest extends TestCase
 {
@@ -25,13 +28,27 @@ class BladeRendererTest extends TestCase
             ]
         ];
 
+        $routerFactory = new FastRouteRouterFactory();
+        $router = $routerFactory($container);
+        $router->addRoute(new Route('/article/show/{id}', function () {
+            return "Middleware";
+        }, Route::HTTP_METHOD_ANY, 'article_show'));
+
+        $container->instance(RouterInterface::class, $router);
+
         $rendererFactory = new BladeRendererFactory();
         $this->renderer = $rendererFactory($container);
     }
 
     public function testRender()
     {
-        $this->assertSame('Hello Hari', $this->renderer->render('app::hello', [
+        $result = <<<'EOD'
+Hello Hari
+
+/article/show/3?foo=bar#fragment
+
+EOD;
+        $this->assertSame($result, $this->renderer->render('app::hello', [
             'name' => 'Hari'
         ]));
     }
