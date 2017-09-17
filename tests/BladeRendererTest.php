@@ -35,4 +35,9 @@ class BladeRendererTest extends TestCase
             'name' => 'Hari'
         ]));
     }
+
+    public function testInstanceOfBladeRenderer()
+    {
+        $this->assertInstanceOf(BladeRenderer::class, $this->renderer);
+    }
 }
