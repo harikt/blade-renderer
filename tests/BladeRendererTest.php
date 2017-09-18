@@ -46,7 +46,9 @@ class BladeRendererTest extends TestCase
 Hello Hari
 
 /article/show/3?foo=bar#fragment
+
 /hello/world
+
 EOD;
         $this->assertSame($result, $this->renderer->render('app::hello', [
             'name' => 'Hari'
