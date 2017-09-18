@@ -1,5 +1,7 @@
 # Illuminate View
 
+[![Build Status](https://travis-ci.org/harikt/blade-renderer.png?branch=master)](https://travis-ci.org/harikt/blade-renderer)
+
 ```
 composer require harikt/blade-renderer
 ```
