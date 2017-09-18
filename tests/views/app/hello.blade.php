@@ -1,5 +1,9 @@
 Hello {{ $name }}
 
-@url('article_show', ['id' => '3'], ['foo' => 'bar'], 'fragment')
+@php
+    echo @$urlHelper('article_show', ['id' => '3'], ['foo' => 'bar'], 'fragment');
+@endphp
 
-{{-- @serverurl('/hello/world') --}}
+@php
+    echo $serverUrlHelper('/hello/world');
+@endphp

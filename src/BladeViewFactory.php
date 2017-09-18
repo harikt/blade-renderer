@@ -50,23 +50,8 @@ class BladeViewFactory
 
         $urlHelperFactory = new UrlHelperFactory();
         $urlHelper = $urlHelperFactory($container);
-        $viewResolver->resolve('blade')->getCompiler()->directive('url', function (
-            $routeName = null,
-            array $routeParams = [],
-            array $queryParams = [],
-            $fragmentIdentifier = null,
-            array $options = []
-        ) use ($urlHelper) {
-            return var_export($routeParams, true);
-            // return $urlHelper->generate('article_show', ['id' => '3'], ['foo' => 'bar'], 'fragment');
-            // return $urlHelper->generate($routeName, $routeParams, $queryParams, $fragmentIdentifier, $options);
-        });
-
         $serverUrlHelper = $container->make(ServerUrlHelper::class);
-        $viewResolver->resolve('blade')->getCompiler()->directive('serverurl', function ($path = null) use ($serverUrlHelper) {
-            return $serverUrlHelper->generate($path);
-        });
-
+        
     	$viewResolver->register('php', function () {
     	    return new PhpEngine();
     	});
@@ -75,6 +60,10 @@ class BladeViewFactory
     	$dispatcher = $this->getEventDispatcher($container);
 
     	$factory = new ViewFactory($viewResolver, $finder, $dispatcher);
+        $factory->share([
+            'urlHelper' => $urlHelper,
+            'serverUrlHelper' => $serverUrlHelper,
+        ]);
 
     	return $factory;
     }
