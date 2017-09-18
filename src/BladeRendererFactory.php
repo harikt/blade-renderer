@@ -4,6 +4,8 @@ namespace Harikt\Blade;
 use Psr\Container\ContainerInterface;
 use Illuminate\View\Factory as ViewFactory;
 use Illuminate\Contracts\View\Factory;
+use Zend\Expressive\Helper\ServerUrlHelper;
+use Zend\Expressive\Helper\UrlHelperFactory;
 
 class BladeRendererFactory
 {
@@ -19,6 +21,14 @@ class BladeRendererFactory
         // Create the engine instance:
         $viewFactory = $this->createView($container);
 
+        $urlHelperFactory = new UrlHelperFactory();
+        $urlHelper = $urlHelperFactory($container);
+        $serverUrlHelper = $container->make(ServerUrlHelper::class);
+        $viewFactory->share([
+            'urlHelper' => $urlHelper,
+            'serverUrlHelper' => $serverUrlHelper,
+        ]);
+
         // Inject view
         $blade = new BladeRenderer($viewFactory);
         // Add template paths
@@ -26,7 +36,7 @@ class BladeRendererFactory
         foreach ($allPaths as $namespace => $paths) {
             $namespace = is_numeric($namespace) ? null : $namespace;
             foreach ((array) $paths as $path) {
-                $blade->addPath($namespace, $path);
+                $blade->addPath($path, $namespace);
             }
         }
 

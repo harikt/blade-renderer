@@ -41,11 +41,6 @@ class BladeRenderer implements TemplateRendererInterface
     /**
      * Add a path for template
      *
-     * Multiple calls to this method without a namespace will trigger an
-     * E_USER_WARNING and act as a no-op. Plates does not handle non-namespaced
-     * folders, only the default directory; overwriting the default directory
-     * is likely unintended.
-     *
      * @param string $path
      * @param string $namespace
      * @return void
@@ -57,12 +52,7 @@ class BladeRenderer implements TemplateRendererInterface
             return;
         }
 
-        if (! $namespace) {
-            trigger_error('Cannot add duplicate un-namespaced path in Plates template adapter', E_USER_WARNING);
-            return;
-        }
-
-        $this->template->addNamespace($path, $namespace);
+        $this->template->addNamespace($namespace, $path);
     }
 
     /**
@@ -72,67 +62,35 @@ class BladeRenderer implements TemplateRendererInterface
      */
     public function getPaths()
     {
-        $paths = [];
-        // $paths = $this->template->getDirectory()
-        //     ? [ $this->getDefaultPath() ]
-        //     : [];
-        //
-        // foreach ($this->getPlatesFolders() as $folder) {
-        //     $paths[] = new TemplatePath($folder->getPath(), $folder->getName());
-        // }
-        return $paths;
+        $templatePaths = [];
+
+        $paths = $this->template->getFinder()->getPaths();
+        $hints = $this->template->getFinder()->getHints();
+
+        foreach ($paths as $path) {
+            $templatePaths[] = new TemplatePath($path);
+        }
+
+        foreach ($hints as $namespace => $path) {
+            $templatePaths[] = new TemplatePath($namespace, $path);
+        }
+
+        return $templatePaths;
     }
 
     /**
-     * Proxies to the Plate Engine's `addData()` method.
      *
      * {@inheritDoc}
      */
     public function addDefaultParam($templateName, $param, $value)
     {
-        if (! is_string($templateName) || empty($templateName)) {
+        if (! is_string($param) || empty($param)) {
             throw new Exception\InvalidArgumentException(sprintf(
-                '$templateName must be a non-empty string; received %s',
-                is_object($templateName) ? get_class($templateName) : gettype($templateName)
+                '$param must be a non-empty string; received %s',
+                is_object($param) ? get_class($param) : gettype($param)
             ));
         }
 
-        // if (! is_string($param) || empty($param)) {
-        //     throw new Exception\InvalidArgumentException(sprintf(
-        //         '$param must be a non-empty string; received %s',
-        //         is_object($param) ? get_class($param) : gettype($param)
-        //     ));
-        // }
-        //
-        // $params = [$param => $value];
-        //
-        // if ($templateName === self::TEMPLATE_ALL) {
-        $templateName = null;
-        // }
-
         $this->template->share($param, $value);
-    }
-
-    /**
-     * Create and return a TemplatePath representing the default Plates directory.
-     *
-     * @return TemplatePath
-     */
-    private function getDefaultPath()
-    {
-        return new TemplatePath($this->template->getDirectory());
-    }
-
-    /**
-     * Return the internal array of plates folders.
-     *
-     * @return \League\Plates\Template\Folder[]
-     */
-    private function getPlatesFolders()
-    {
-        $folders = $this->template->getFolders();
-        $r = new ReflectionProperty($folders, 'folders');
-        $r->setAccessible(true);
-        return $r->getValue($folders);
     }
 }

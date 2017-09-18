@@ -14,8 +14,6 @@ use Illuminate\View\Factory as ViewFactory;
 use Illuminate\View\FileViewFinder;
 use Illuminate\View\ViewFinderInterface;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Helper\ServerUrlHelper;
-use Zend\Expressive\Helper\UrlHelperFactory;
 
 class BladeViewFactory
 {
@@ -32,40 +30,30 @@ class BladeViewFactory
     {
         $viewResolver = new EngineResolver();
 
-    	$config = $container->has('config') ? $container->get('config') : [];
+        $config = $container->has('config') ? $container->get('config') : [];
         if (! isset($config['blade'])) {
             throw new \Exception("Need blade['cache_dir'] in config");
         }
 
-    	$cachePath = $config['blade']['cache_dir'];
+        $cachePath = $config['blade']['cache_dir'];
 
-    	$viewResolver->register('blade', function () use ($cachePath) {
-    		return new CompilerEngine(
-    			new BladeCompiler(
-    				new Filesystem(),
-    				$cachePath
-    			)
-    		);
-    	});
+        $viewResolver->register('blade', function () use ($cachePath) {
+            return new CompilerEngine(
+                new BladeCompiler(
+                    new Filesystem(),
+                    $cachePath
+                )
+            );
+        });
 
-        $urlHelperFactory = new UrlHelperFactory();
-        $urlHelper = $urlHelperFactory($container);
-        $serverUrlHelper = $container->make(ServerUrlHelper::class);
-        
-    	$viewResolver->register('php', function () {
-    	    return new PhpEngine();
-    	});
+        $viewResolver->register('php', function () {
+            return new PhpEngine();
+        });
 
-    	$finder = $this->getViewFinder($container);
-    	$dispatcher = $this->getEventDispatcher($container);
+        $finder = $this->getViewFinder($container);
+        $dispatcher = $this->getEventDispatcher($container);
 
-    	$factory = new ViewFactory($viewResolver, $finder, $dispatcher);
-        $factory->share([
-            'urlHelper' => $urlHelper,
-            'serverUrlHelper' => $serverUrlHelper,
-        ]);
-
-    	return $factory;
+        return new ViewFactory($viewResolver, $finder, $dispatcher);
     }
 
     protected function getViewFinder($container)
