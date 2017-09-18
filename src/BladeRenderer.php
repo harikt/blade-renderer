@@ -52,7 +52,7 @@ class BladeRenderer implements TemplateRendererInterface
             return;
         }
 
-        $this->template->addNamespace($path, $namespace);
+        $this->template->addNamespace($namespace, $path);
     }
 
     /**
