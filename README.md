@@ -21,21 +21,14 @@ return [
         ],
     ],
 
-    // currently not supported
-    // 'templates' => [
-    //     'extension' => [
-    //         'blade.php' => 'blade',
-    //         'php' => 'php',
-    //         'css' => 'file',
-    //     ],
-    // ],
+    'templates' => [
+        'paths' => [
+            'app' => __DIR__ . '/views/app',
+        ]
+    ]
 
     'blade' => [
         'cache_dir'      => '/cache/path',
-        // Need to Discuss with Taylor whether blade extensions are called composer.
-        'extensions'     => [
-            // extensions
-        ],
     ],
 ];
 ```
