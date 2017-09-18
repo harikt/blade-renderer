@@ -14,6 +14,8 @@ use Illuminate\View\Factory as ViewFactory;
 use Illuminate\View\FileViewFinder;
 use Illuminate\View\ViewFinderInterface;
 use Psr\Container\ContainerInterface;
+use Zend\Expressive\Helper\ServerUrlHelper;
+use Zend\Expressive\Helper\UrlHelperFactory;
 
 class BladeViewFactory
 {
@@ -23,7 +25,7 @@ class BladeViewFactory
             return $container->get(Factory::class);
         }
 
-        return $viewFactory = $this->createViewFactory($container);
+        return $this->createViewFactory($container);
     }
 
     public function createViewFactory($container)
@@ -46,6 +48,10 @@ class BladeViewFactory
     		);
     	});
 
+        $urlHelperFactory = new UrlHelperFactory();
+        $urlHelper = $urlHelperFactory($container);
+        $serverUrlHelper = $container->make(ServerUrlHelper::class);
+        
     	$viewResolver->register('php', function () {
     	    return new PhpEngine();
     	});
@@ -54,6 +60,10 @@ class BladeViewFactory
     	$dispatcher = $this->getEventDispatcher($container);
 
     	$factory = new ViewFactory($viewResolver, $finder, $dispatcher);
+        $factory->share([
+            'urlHelper' => $urlHelper,
+            'serverUrlHelper' => $serverUrlHelper,
+        ]);
 
     	return $factory;
     }

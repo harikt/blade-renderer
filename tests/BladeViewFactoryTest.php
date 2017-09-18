@@ -5,6 +5,9 @@ use Acclimate\Container\ContainerAcclimator;
 use Illuminate\Container\Container;
 use Illuminate\View\Factory as ViewFactory;
 use PHPUnit\Framework\TestCase;
+use Zend\Expressive\Router\Route;
+use Zend\Expressive\Router\RouterInterface;
+use Zend\Expressive\Router\FastRouteRouterFactory;
 
 class BladeViewFactoryTest extends TestCase
 {
@@ -21,6 +24,14 @@ class BladeViewFactoryTest extends TestCase
                 'cache_dir' => sys_get_temp_dir(),
             ]
         ];
+
+        $routerFactory = new FastRouteRouterFactory();
+        $router = $routerFactory($container);
+        $router->addRoute(new Route('/article/show/{id}', function () {
+            return "Middleware";
+        }, Route::HTTP_METHOD_ANY, 'article_show'));
+
+        $container->instance(RouterInterface::class, $router);
 
         $this->container = $container;
         $this->bladeViewFactory = new BladeViewFactory();

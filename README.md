@@ -1,5 +1,7 @@
 # Illuminate View
 
+[![Build Status](https://travis-ci.org/harikt/blade-renderer.png?branch=master)](https://travis-ci.org/harikt/blade-renderer)
+
 ```
 composer require harikt/blade-renderer
 ```
@@ -36,4 +38,22 @@ return [
         ],
     ],
 ];
+```
+
+## Helper functions
+
+You can make use of zend expressive provided url helper functions [with embedding inside php](https://laravel.com/docs/5.5/blade#php).
+
+Example usage.
+
+```
+Hello {{ $name }}
+
+@php
+    echo @$urlHelper('article_show', ['id' => '3'], ['foo' => 'bar'], 'fragment');
+@endphp
+
+@php
+    echo $serverUrlHelper('/hello/world');
+@endphp
 ```
