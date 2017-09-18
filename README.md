@@ -42,18 +42,14 @@ return [
 
 ## Helper functions
 
-You can make use of zend expressive provided url helper functions [with embedding inside php](https://laravel.com/docs/5.5/blade#php).
+You can make use of zend expressive provided url helper functions with the shared variable `$urlHelper` and `$serverUrlHelper`.
 
 Example usage.
 
 ```
 Hello {{ $name }}
 
-@php
-    echo $urlHelper('article_show', ['id' => '3'], ['foo' => 'bar'], 'fragment');
-@endphp
+{{ $urlHelper('article_show', ['id' => '3'], ['foo' => 'bar'], 'fragment') }}
 
-@php
-    echo $serverUrlHelper('/hello/world');
-@endphp
+{{ $serverUrlHelper('/hello/world') }}
 ```
