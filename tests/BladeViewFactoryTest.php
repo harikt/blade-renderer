@@ -1,13 +1,12 @@
 <?php
 namespace Harikt\Blade;
 
-use Acclimate\Container\ContainerAcclimator;
 use Illuminate\Container\Container;
 use Illuminate\View\Factory as ViewFactory;
 use PHPUnit\Framework\TestCase;
+use Zend\Expressive\Router\FastRouteRouterFactory;
 use Zend\Expressive\Router\Route;
 use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Router\FastRouteRouterFactory;
 
 class BladeViewFactoryTest extends TestCase
 {

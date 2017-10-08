@@ -1,9 +1,8 @@
 <?php
 namespace Harikt\Blade;
 
-use Psr\Container\ContainerInterface;
-use Illuminate\View\Factory as ViewFactory;
 use Illuminate\Contracts\View\Factory;
+use Psr\Container\ContainerInterface;
 use Zend\Expressive\Helper\ServerUrlHelper;
 use Zend\Expressive\Helper\UrlHelperFactory;
 
