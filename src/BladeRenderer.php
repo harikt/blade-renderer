@@ -2,7 +2,6 @@
 namespace Harikt\Blade;
 
 use Illuminate\Contracts\View\Factory;
-use ReflectionProperty;
 use Zend\Expressive\Template\ArrayParametersTrait;
 use Zend\Expressive\Template\Exception;
 use Zend\Expressive\Template\TemplatePath;

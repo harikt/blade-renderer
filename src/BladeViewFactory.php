@@ -1,7 +1,6 @@
 <?php
 namespace Harikt\Blade;
 
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Events\Dispatcher as EventDispatcher;
