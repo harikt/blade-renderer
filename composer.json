@@ -18,18 +18,20 @@
         }
     },
     "require": {
+        "http-interop/http-server-middleware": "^1.0@dev",
         "illuminate/cache": "^5.5",
         "illuminate/container": "^5.5",
         "illuminate/events": "^5.5",
         "illuminate/filesystem": "^5.5",
         "illuminate/view": "^5.5",
         "psr/container": "~1.0",
-        "zendframework/zend-expressive-helpers": "^4.1",
-        "zendframework/zend-expressive-router": "^2.1",
-        "zendframework/zend-expressive-template": "^1.0"
+        "zendframework/zend-expressive-helpers": "^5.0.0-dev",
+        "zendframework/zend-expressive-router": "^3.0.0-dev",
+        "zendframework/zend-expressive-template": "^2.0.0-dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0.8 || ^5.7.15",
-        "zendframework/zend-expressive-fastroute": "^2.1"
-    }
+        "zendframework/zend-expressive-fastroute": "^3.0.0-dev"
+    },
+    "minimum-stability": "dev"
 }
