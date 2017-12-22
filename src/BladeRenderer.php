@@ -31,7 +31,7 @@ class BladeRenderer implements TemplateRendererInterface
      * @param array|object $params
      * @return string
      */
-    public function render($name, $params = [])
+    public function render(string $name, $params = []) : string
     {
         $params = $this->normalizeParams($params);
         return $this->template->make($name, $params)->render();
@@ -44,7 +44,7 @@ class BladeRenderer implements TemplateRendererInterface
      * @param string $namespace
      * @return void
      */
-    public function addPath($path, $namespace = null)
+    public function addPath(string $path, string $namespace = null) : void
     {
         if (! $namespace) {
             $this->template->addLocation($path);
@@ -59,7 +59,7 @@ class BladeRenderer implements TemplateRendererInterface
      *
      * @return TemplatePath[]
      */
-    public function getPaths()
+    public function getPaths() : array
     {
         $templatePaths = [];
 
@@ -81,7 +81,7 @@ class BladeRenderer implements TemplateRendererInterface
      *
      * {@inheritDoc}
      */
-    public function addDefaultParam($templateName, $param, $value)
+    public function addDefaultParam(string $templateName, string $param, $value) : void
     {
         if (! is_string($param) || empty($param)) {
             throw new Exception\InvalidArgumentException(sprintf(
