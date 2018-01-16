@@ -22,7 +22,7 @@ class BladeRendererFactory
 
         $urlHelperFactory = new UrlHelperFactory();
         $urlHelper = $urlHelperFactory($container);
-        $serverUrlHelper = $container->make(ServerUrlHelper::class);
+        $serverUrlHelper = $container->get(ServerUrlHelper::class);
         $viewFactory->share([
             'urlHelper' => $urlHelper,
             'serverUrlHelper' => $serverUrlHelper,
