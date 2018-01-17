@@ -7,10 +7,11 @@ use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use PHPUnit\Framework\TestCase;
+use Zend\Diactoros\Response;
 use Zend\Expressive\Router\FastRouteRouterFactory;
 use Zend\Expressive\Router\Route;
 use Zend\Expressive\Router\RouterInterface;
-use Zend\Diactoros\Response;
+use Zend\Expressive\Helper\ServerUrlHelper;
 
 class BladeRendererTest extends TestCase
 {
@@ -43,6 +44,9 @@ class BladeRendererTest extends TestCase
         }, Route::HTTP_METHOD_ANY, 'article_show'));
 
         $container->instance(RouterInterface::class, $router);
+        $container->bind(ServerUrlHelper::class, function () {
+            return new ServerUrlHelper();
+        }, true);
 
         $rendererFactory = new BladeRendererFactory();
         $this->renderer = $rendererFactory($container);
