@@ -2,8 +2,8 @@
 namespace Harikt\Blade;
 
 use Illuminate\Container\Container;
-use Interop\Http\Server\MiddlewareInterface;
-use Interop\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use PHPUnit\Framework\TestCase;
